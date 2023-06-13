@@ -4,6 +4,7 @@ import { defineComponent } from "vue";
 import iconeLogin from "../assets/imagens/envelope.svg";
 import iconeSenha from "../assets/imagens/chave.svg";
 import { LoginServices } from "@/services/LoginServices";
+import router from '../router/index'
 
 const loginServices = new LoginServices();
 export default defineComponent({
@@ -32,7 +33,8 @@ export default defineComponent({
         this.loading = true;
 
 
-        await loginServices.login({login: this.login, senha: this.senha});        
+        await loginServices.login({login: this.login, senha: this.senha}); 
+        router.push({name: "home"})       
         
       } catch (e: any) {
         console.log(e)
