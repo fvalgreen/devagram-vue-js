@@ -1,7 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import iconeAvatar from "../assets/imagens/avatar.svg";
-import { file } from "@babel/types";
 export default defineComponent({
   props: {
     imagem: null,

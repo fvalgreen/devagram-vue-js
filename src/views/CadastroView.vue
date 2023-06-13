@@ -8,6 +8,10 @@ import iconeEmail from "../assets/imagens/envelope.svg";
 import iconeSenha from "../assets/imagens/chave.svg";
 import router from '../router'
 import InputImagem from "@/components/InputImagem.vue";
+import {CadastroServices} from '../services/CadastroServices'
+
+const cadastroServices = new CadastroServices()
+
 export default defineComponent({
   setup() {
     return {
@@ -32,7 +36,34 @@ export default defineComponent({
   methods: {
     async cadastrar() {
       try {
+        this.erro = '';
+        if(!this.nome || !this.nome.trim() 
+        || !this.email || !this.email.trim()
+        || !this.senha || !this.senha.trim()
+        || !this.confimarSenha || !this.confimarSenha.trim()
+        ){
+          return this.erro = "Favor preencher todos os campos do formulário";
+        };
+        
+        if(this.senha !== this.confimarSenha){
+          return this.erro = "Senha e confirmação não são iguais"
+        }
         this.loading = true;
+
+        const forDataRequisicao = new FormData();
+
+        forDataRequisicao.append('nome', this.nome);
+        forDataRequisicao.append('email', this.email);
+        forDataRequisicao.append('senha', this.senha);
+
+        if(this.imagem.arquivo){
+          forDataRequisicao.append('file', this.imagem.arquivo);
+        }
+
+        await cadastroServices.cadastrar(forDataRequisicao)
+        router.push({name: 'login', query: { cadastroComSucesso: 'true'}})
+
+        
       } catch (e: any) {
         console.log(e);
         if (e?.response?.data?.erro) {

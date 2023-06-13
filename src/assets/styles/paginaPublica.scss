@@ -16,13 +16,19 @@
   .logo{
     margin-bottom: 30px;
     width: 40%;
-  }  
+  } 
 
   .erro {
     text-align: center;
     color: $vermelho;
     font-weight: bold;
     max-width: 30px;
+  }
+
+  .sucesso{
+    text-align: center;
+    color: $corPrimaria2;
+    font-family: $fontBold;
   }
 
   form {
