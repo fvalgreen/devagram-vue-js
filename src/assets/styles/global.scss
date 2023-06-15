@@ -69,3 +69,10 @@ input {
 .oculto {
   display: none !important;
 }
+
+body {
+  @media screen and (min-width: $desktopBreakPoint) {
+    background-color: $cinza5;
+    background-image: url('../imagens//textura.svg');
+  }
+}
