@@ -1,18 +1,20 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import Navegacao from "./Navegacao.vue";
 
 export default defineComponent({
-  data() {
-    return {
-      resutlado: [],
-      inputFocus: false,
-    };
-  },
-  methods: {
-    setFocusInput(v: boolean) {
-      this.inputFocus = v;
+    data() {
+        return {
+            resutlado: [],
+            inputFocus: false,
+        };
     },
-  },
+    methods: {
+        setFocusInput(v: boolean) {
+            this.inputFocus = v;
+        },
+    },
+    components: { Navegacao }
 });
 </script>
 <template>
@@ -33,7 +35,7 @@ export default defineComponent({
             @blur="setFocusInput(false)"
           />
         </div>
-        <!-- Navegação -->
+        <Navegacao />
       </div>
     </div>
     <div v-if="resutlado.length > 0" class="resultado">
