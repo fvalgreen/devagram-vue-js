@@ -13,4 +13,4 @@ import Postagem from './Postagem.vue';
     <Postagem :post="item" v-for="item in posts"/>
   </div>
 </template>
-<!-- <style lang="scss" src="@/assets/styles/feed.scss" /> -->
+<style lang="scss" src="@/assets/styles/feed.scss" />
