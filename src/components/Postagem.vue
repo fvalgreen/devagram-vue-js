@@ -44,8 +44,8 @@ export default defineComponent({
     </div>
     <div class="rodape">
       <div class="acoes">
-        <img :src="obterIconeCurtir" alt="Curtir/descurtir" />
-        <img :src="comentarioAtivoIcone" alt="Comentar" />
+        <img :src="obterIconeCurtir" alt="Curtir/descurtir" class="feed-icone"/>
+        <img :src="comentarioAtivoIcone" alt="Comentar" class="feed-icone"/>
         <span class="curtidas">
           Curtido por <strong>{{ post?.likes?.length }}</strong> pessoa{{ post?.likes?.length > 1 ? 's' : '' }}
         </span>
@@ -69,4 +69,4 @@ export default defineComponent({
     </div>
   </div>
 </template>
-<!-- <style lang="scss" src="@/assets/styles/feed.scss" /> -->
+<style lang="scss" src="@/assets/styles/postagem.scss" />
