@@ -5,6 +5,10 @@ import curtirIcone from "../assets/imagens/curtir.svg";
 import curtidoIcone from "../assets/imagens/curtido.svg";
 import comentarioAtivoIcone from "../assets/imagens/comentarioAtivo.svg";
 import comentarioInativoIcone from "../assets/imagens/comentarioCinza.svg";
+import { FeedServices } from "@/services/FeedServices";
+
+
+const feedServices = new FeedServices();
 export default defineComponent({
   setup() {
     return {
@@ -17,16 +21,28 @@ export default defineComponent({
   },
   methods: {
     navegarParaPerfil() {},
+    async toggleCurtir(){
+      try {
+        await feedServices.toggleCurtir(this.post?._id);
+        const index = this.post?.likes?.findIndex((like: string) => like === this.loggedUserId);
+        if(index != -1){
+          this.post?.likes?.splice(index, 1);
+        }else{
+          this.post?.likes?.push(this.loggedUserId)
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
   },
   components: { Avatar },
   computed: {
     obterIconeCurtir() {
-      return this.post?.likes &&
-        this.post?.likes.findIndex((e: String) => {
-          e === this.loggedUserId;
-        }) != -1
-        ? curtidoIcone
-        : curtirIcone;
+      if(this.post?.likes && this.post?.likes.findIndex((e : String) => e === this.loggedUserId) != -1){
+          return curtidoIcone
+        } else {
+          return curtirIcone
+        }      
     },
   },
 });
@@ -44,7 +60,7 @@ export default defineComponent({
     </div>
     <div class="rodape">
       <div class="acoes">
-        <img :src="obterIconeCurtir" alt="Curtir/descurtir" class="feed-icone"/>
+        <img :src="obterIconeCurtir" alt="Curtir/descurtir" class="feed-icone" @click="toggleCurtir"/>
         <img :src="comentarioAtivoIcone" alt="Comentar" class="feed-icone"/>
         <span class="curtidas">
           Curtido por <strong>{{ post?.likes?.length }}</strong> pessoa{{ post?.likes?.length > 1 ? 's' : '' }}
