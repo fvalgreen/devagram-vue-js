@@ -2,20 +2,22 @@
 import { defineComponent } from "vue";
 import HeaderVue from "@/components/Header.vue";
 import FooterVue from "@/components/Footer.vue";
+import HeaderPerfilVue from "@/components/HeaderPerfil.vue";
+import FeedVue from "@/components/Feed.vue";
 import { FeedServices } from "@/services/FeedServices";
 import { UsuarioServices } from "@/services/UsuarioServices";
-import Feed from "@/components/Feed.vue";
 import router from "@/router";
 
 const feedServices = new FeedServices();
 const usuarioServices = new UsuarioServices();
 
 export default defineComponent({
-  components: { HeaderVue, FooterVue, Feed },
+  components: { HeaderVue, FooterVue, FeedVue, HeaderPerfilVue },
   data() {
     return {
       posts: [],
       usuario: {} as any,
+      mobile: window.innerWidth <= 992,
     };
   },
   async mounted() {
@@ -40,10 +42,22 @@ export default defineComponent({
       console.log(e);
     }
   },
+  computed: {
+    getShowLeft(){
+      return this.mobile ? true : false;
+    }
+  }
 });
 </script>
 <template>
   <HeaderVue :hide="true" />
-  <Feed :posts="posts" :temCabecalho="true"/>
+  <HeaderPerfilVue 
+    :usuario="usuario"
+    :titulo="usuario.nome"
+    :showEsquerda="getShowLeft"
+    :temIconeEsquerda="true"
+    :showDireita="false"
+  />
+  <FeedVue :posts="posts" :temCabecalho="true"/>
   <FooterVue />
 </template>
