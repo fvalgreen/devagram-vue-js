@@ -6,6 +6,7 @@ import curtidoIcone from "../assets/imagens/curtido.svg";
 import comentarioAtivoIcone from "../assets/imagens/comentarioAtivo.svg";
 import comentarioInativoIcone from "../assets/imagens/comentarioCinza.svg";
 import { FeedServices } from "@/services/FeedServices";
+import router from "@/router";
 
 
 const feedServices = new FeedServices();
@@ -32,7 +33,9 @@ export default defineComponent({
     post: null,
   },
   methods: {
-    navegarParaPerfil() {},
+    navegarParaPerfil() {
+      router.push('/usuario/' + this.post?.idUsuario)
+    },
     async toggleCurtir(){
       try {
         await feedServices.toggleCurtir(this.post?._id);
