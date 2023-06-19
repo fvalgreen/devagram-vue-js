@@ -5,7 +5,7 @@ import Postagem from './Postagem.vue';
     props: {
         posts: Array
     },
-    components: { Postagem }
+    components: { Postagem },
 })
 </script>
 <template>

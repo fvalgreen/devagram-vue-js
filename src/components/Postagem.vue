@@ -9,6 +9,8 @@ import { FeedServices } from "@/services/FeedServices";
 
 
 const feedServices = new FeedServices();
+const MAX_DESCRICAO = 90;
+
 export default defineComponent({
   setup() {
     return {
@@ -16,12 +18,14 @@ export default defineComponent({
       loggedUserId: localStorage.getItem("_id"),
       loggedUserAvatar: localStorage.getItem("avatar") ?? '',
       loggedUserNome: localStorage.getItem("nome") ?? '',
+      MAX_DESCRICAO
     };
   },
   data(){
     return{
       showComentario: false,
-      comentarioMsg: ''
+      comentarioMsg: '',
+      showDescricaoFull: false
     }
   },
   props: {
@@ -62,6 +66,9 @@ export default defineComponent({
       } catch (e) {
         console.log(e)
       }
+    },
+    toggleDescricaoFull(){
+      this.showDescricaoFull = !this.showDescricaoFull;
     }
   },
   components: { Avatar },
@@ -76,7 +83,12 @@ export default defineComponent({
     obterIconeComentario(){
       return this.showComentario ? comentarioAtivoIcone : comentarioInativoIcone
     },
-    
+    exibirDescricao(){
+      if(this.showDescricaoFull){
+        return this.post?.descricao;
+      }
+      return this.post?.descricao.length > MAX_DESCRICAO ? this.post?.descricao.substring(0, MAX_DESCRICAO) + '...' : this.post?.descricao
+    }
   },
 });
 </script>
@@ -102,7 +114,8 @@ export default defineComponent({
       <div class="descricao">
         <strong>{{ post?.usuario?.nome }}</strong>
         <p>
-          {{ post?.descricao }}
+          {{ exibirDescricao }}
+          <span v-if="post?.descricao.length > MAX_DESCRICAO && !showDescricaoFull" @click="toggleDescricaoFull" class="mais">mais</span>
         </p>
       </div>
       <div class="comentarios">

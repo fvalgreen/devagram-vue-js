@@ -52,6 +52,12 @@
         font-size: 12px;
         margin: 0 0 2px;
         color: $cinza4;
+        span{
+          color: $corPrimaria3;
+          cursor: pointer;
+          text-decoration: underline;
+          font-size: 12px;
+        }
       }
 
     }
@@ -75,6 +81,7 @@
         font-family: $fontLight;
         font-size: 10px;
         color: $cinza4;
+        letter-spacing: 0.7px;
 
         strong{
           font-family: $fontBold;
@@ -96,6 +103,7 @@
         justify-content: flex-start; 
 
         strong{
+          font-family: $fontBold;
           margin-right: 5px;
           font-size: 12px;
         }
@@ -171,17 +179,23 @@
       .descricao {
         p{
           font-size: 14px;
+          span {
+            font-size: 14px;
+          }
         }
         strong {
           font-size: 14px;
         }
+
       }
       .comentarios{
-        p{
-          font-size: 14px;
-        }
-        strong {
-          font-size: 14px;
+        div{
+          p{
+            font-size: 14px;
+          }
+          strong {
+            font-size: 14px;
+          }
         }
       }
       
