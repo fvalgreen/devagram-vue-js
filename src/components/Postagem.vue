@@ -14,7 +14,15 @@ export default defineComponent({
     return {
       comentarioAtivoIcone,
       loggedUserId: localStorage.getItem("_id"),
+      loggedUserAvatar: localStorage.getItem("avatar") ?? '',
+      loggedUserNome: localStorage.getItem("nome") ?? '',
     };
+  },
+  data(){
+    return{
+      showComentario: false,
+      comentarioMsg: ''
+    }
   },
   props: {
     post: null,
@@ -34,6 +42,27 @@ export default defineComponent({
         console.log(e);
       }
     },
+    toggleComentario(){
+      this.showComentario = !this.showComentario
+    },
+    async enviarComentario(){
+      try {
+        if(!this.comentarioMsg || !this.comentarioMsg.trim()){
+          return
+        }
+        await feedServices.enviarComentario(this.post?._id ,this.comentarioMsg)
+        this.post?.comentarios?.push({
+          usuarioId: this.loggedUserId,
+          nome: this.loggedUserNome,
+          comentario: this.comentarioMsg
+        });
+        this.comentarioMsg ='';
+        this.showComentario = false;
+
+      } catch (e) {
+        console.log(e)
+      }
+    }
   },
   components: { Avatar },
   computed: {
@@ -44,6 +73,10 @@ export default defineComponent({
           return curtirIcone
         }      
     },
+    obterIconeComentario(){
+      return this.showComentario ? comentarioAtivoIcone : comentarioInativoIcone
+    },
+    
   },
 });
 </script>
@@ -61,7 +94,7 @@ export default defineComponent({
     <div class="rodape">
       <div class="acoes">
         <img :src="obterIconeCurtir" alt="Curtir/descurtir" class="feed-icone" @click="toggleCurtir"/>
-        <img :src="comentarioAtivoIcone" alt="Comentar" class="feed-icone"/>
+        <img :src="obterIconeComentario" alt="Comentar" class="feed-icone" @click="toggleComentario"/>
         <span class="curtidas">
           Curtido por <strong>{{ post?.likes?.length }}</strong> pessoa{{ post?.likes?.length > 1 ? 's' : '' }}
         </span>
@@ -80,8 +113,10 @@ export default defineComponent({
         </div>
       </div>
     </div>
-    <div class="container-comentario">
-      <!-- implementar comentário -->
+    <div class="container-comentario" v-if="showComentario">
+      <Avatar :imagem="loggedUserAvatar" />
+      <input type="text" v-model="comentarioMsg" placeholder="Adicione um comentário ..." @keyup.enter="enviarComentario">
+      <button type="button" @click.prevent="enviarComentario">Comentar</button>
     </div>
   </div>
 </template>

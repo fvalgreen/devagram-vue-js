@@ -93,12 +93,39 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: flex-start; 
 
         strong{
           margin-right: 5px;
+          font-size: 12px;
         }
+        p {
+          font-size: 12px;
+        }
+        
       }
+    }
+  }
+  .container-comentario{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    margin-bottom: 16px;
+    margin-top: 5px;
+
+    input {
+      resize: none;
+      flex: 1;
+      max-width: 100%;
+      border: none;
+      outline: none;
+      font-size: 12px;
+      color: $cinza2;
+    }
+    button{
+      display: none;
     }
   }
  
@@ -159,6 +186,26 @@
       }
       
 
+    }
+    .container-comentario{
+      padding: 0 12px;
+      margin-bottom: 20px;
+      margin-top: 10px;
+
+      input{
+        font-size: 14px;
+      }
+
+      button {
+        display: block;
+        background-color: transparent;
+        color: $corPrimaria2;
+        outline: none;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+
+      }
     }
   }
 }

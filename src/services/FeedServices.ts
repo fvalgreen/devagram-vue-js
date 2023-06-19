@@ -11,4 +11,8 @@ export class FeedServices extends HttpApiServices{
   async toggleCurtir(id: string){
     return this.put('/like?id=' + id)
   }
+
+  async enviarComentario(id:String, comentario: String){
+    return this.put('/comentario?id=' + id, {comentario})
+  }
 }
