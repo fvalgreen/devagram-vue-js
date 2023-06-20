@@ -31,6 +31,15 @@ export default defineComponent({
         return "Deixar de seguir";
       }
     },
+    obterClasseBotaoPrincipal(){
+      if (this.usuario?._id === this.loggedId) {
+        return "";
+      } else if (!this.usuario?.segueEsseUsuario) {
+        return "principal";
+      } else {
+        return "";
+      }
+    }
   },
   methods: {
     async acaoBotao() {
@@ -80,7 +89,7 @@ export default defineComponent({
             <span>Seguindo</span>
           </div>
         </div>
-        <button :class="{ principal: !usuario?.segueEsseUsuario }" @click="acaoBotao">
+        <button :class="obterClasseBotaoPrincipal" @click="acaoBotao">
           {{ obterTextoBotaoPrincipal }}
         </button>
       </div>
