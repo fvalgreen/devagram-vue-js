@@ -50,7 +50,7 @@ export default defineComponent({
 <template>
   <header class="container-header" :class="{hide: hide}">
     <div class="principal">
-      <img src="../assets/imagens/logoHorizontal.svg" alt="Logo Devagram" />
+      <img src="../assets/imagens/logoHorizontal.svg" alt="Logo Devagram" @click="$router.push('/')"/>
       <div class="group">
         <div class="pesquisa" :class="{ focus: inputFocus }">
           <img
