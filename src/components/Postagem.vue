@@ -33,7 +33,11 @@ export default defineComponent({
   },
   methods: {
     navegarParaPerfil() {
-      router.push("/usuario/" + this.post?.idUsuario);
+      if(this.post?.idUsuario === this.loggedUserId){
+        router.push({name: 'perfil'})
+      }else{
+        router.push("/usuario/" + this.post?.idUsuario);
+      }
     },
     async toggleCurtir() {
       try {
