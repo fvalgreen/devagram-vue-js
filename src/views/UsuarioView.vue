@@ -57,6 +57,7 @@ export default defineComponent({
     :showEsquerda="getShowLeft"
     :temIconeEsquerda="true"
     :showDireita="false"
+    v-if="usuario?._id"
   />
   <FeedVue :posts="posts" :temCabecalho="true"/>
   <FooterVue />
