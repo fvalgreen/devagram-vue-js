@@ -2,13 +2,11 @@
 import { defineComponent } from "vue";
 import HeaderVue from "@/components/Header.vue";
 import FooterVue from "@/components/Footer.vue";
-import HeaderPerfilVue from "@/components/HeaderPerfil.vue";
-import FeedVue from "@/components/Feed.vue";
-import { FeedServices } from "@/services/FeedServices";
 import { UsuarioServices } from "@/services/UsuarioServices";
 import HeaderAcoesVue from "@/components/HeaderAcoes.vue";
 import InputImagem from "@/components/InputImagem.vue";
 import AvatarVue from "@/components/Avatar.vue";
+import router from "@/router";
 
 const usuarioServices = new UsuarioServices();
 
@@ -25,6 +23,70 @@ export default defineComponent({
     getImagem(){
       return this.imagem?.preview ? this.imagem?.preview : this.avatar;
     }
+  },
+  methods:{
+    limpar(){
+      this.nome = ""
+    },
+    abrirSeletor(){
+      const input = this.$refs.referenciaInput as HTMLElement;
+
+      input.click()
+    },
+    selecionarImagem(event: any){
+      if(event?.target?.files && event?.target?.files.length > 0){
+        const arquivo = event?.target?.files[0];
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(arquivo);
+        fileReader.onloadend = () => {
+          const imagemFinal = {
+            preview: fileReader.result,
+            arquivo
+          };
+          this.imagem = imagemFinal;
+        }
+      }
+    },
+    async concluirEdicao(){
+      try {  
+        if(!this.nome && !this.imagem.arquivo){
+          return;
+        }
+
+        const requisicaoBody = new FormData();
+
+        if(this.nome){
+          requisicaoBody.append('nome', this.nome.toString());
+
+        }
+
+        if(this.imagem.arquivo){
+          requisicaoBody.append('file', this.imagem.arquivo)
+        }
+        
+        await usuarioServices.atualizar(requisicaoBody)
+
+        if(this.nome){
+          localStorage.setItem('nome', this.nome.toString());
+
+        }
+
+        if(this.imagem.arquivo){
+          localStorage.setItem('avatar', this.imagem.preview)
+        }
+
+        return router.back();
+
+
+      } catch (e: any) {
+        console.log(e)
+        if(e?.response?.data?.erro){
+          console.log(e?.response?.data?.erro);
+        }else{
+          console.log('Não foi possível efetuar a ediçao do perfil, tente novamente', e);
+        }
+      }
+    }
   }
 });
 </script>
@@ -39,15 +101,16 @@ export default defineComponent({
       :temIconeEsquerda="false"
       :temIconeDireita="false"
       :textoDireita="'Concluir'"
+      @acoesCallback="concluirEdicao"
     />
-    <AvatarVue :imagem="getImagem"/>
-    <button>Alterar foto de perfil</button>
-    <input type="file" class="oculto" accept="image/*" ref="referenciaInput" />
+    <AvatarVue :imagem="getImagem" @click="abrirSeletor"/>
+    <button @click="abrirSeletor">Alterar foto de perfil</button>
+    <input type="file" class="oculto" accept="image/*" ref="referenciaInput" @input="selecionarImagem"/>
 
     <div class="input">
       <span>Nome</span>
       <input type="text" v-model="nome" placeholder="Informe seu nome" />
-      <img src="../assets/imagens/limpar.svg" alt="limpar">
+      <img src="../assets/imagens/limpar.svg" alt="limpar" @click="limpar" v-if="nome">
     </div>
   </div>
   <FooterVue />
