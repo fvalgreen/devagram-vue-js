@@ -1,0 +1,68 @@
+@import './variaveis.scss';
+
+.container-publicacao{
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: white;
+  height: 100%;
+
+  .container-acoes{
+    width: 92%;    
+  }
+
+  .form{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 60px;
+
+    img{
+      margin-bottom: 10px;
+
+    }
+
+    button {
+      color: white;
+      width: 200px;
+      height: 48px;
+      border-radius: 4px;
+      cursor: pointer;
+      background-color: $corPrimaria3;
+      border: none;
+      font-size: 14px;
+    }
+  }
+
+  
+
+  @media screen and (min-width: $desktopBreakPoint) {
+    width: 40%;
+    margin-top: 110px;
+    height: 80%;
+
+    .form {
+      img {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 34px;
+      }
+
+      span{
+        font-size: 16px;
+        margin-bottom: 48px;
+      }
+      button{
+        width: 374px;
+        font-size: 16px;
+        font-family: $fontBold;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import PerfilView from "../views/PerfilView.vue";
 import { useAccessTokenStore } from "@/stores/accessToken";
 import CadastroView from "@/views/CadastroView.vue";
 import EditarView from "@/views/EditarView.vue";
+import PublicacaoView from "@/views/PublicacaoView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,12 @@ const router = createRouter({
       path: '/editar',
       name: 'editar',
       component: EditarView,
+      meta: { rotaPrivada: true }
+    },
+    {
+      path: '/publicacao',
+      name: 'publicacao',
+      component: PublicacaoView,
       meta: { rotaPrivada: true }
     },
   ],

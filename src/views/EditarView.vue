@@ -4,14 +4,13 @@ import HeaderVue from "@/components/Header.vue";
 import FooterVue from "@/components/Footer.vue";
 import { UsuarioServices } from "@/services/UsuarioServices";
 import HeaderAcoesVue from "@/components/HeaderAcoes.vue";
-import InputImagem from "@/components/InputImagem.vue";
 import AvatarVue from "@/components/Avatar.vue";
 import router from "@/router";
 
 const usuarioServices = new UsuarioServices();
 
 export default defineComponent({
-  components: { HeaderVue, FooterVue, HeaderAcoesVue, InputImagem, AvatarVue },
+  components: { HeaderVue, FooterVue, HeaderAcoesVue, AvatarVue },
   data() {
     return {
       nome: localStorage.getItem('nome') as String,
@@ -95,12 +94,12 @@ export default defineComponent({
 
   <div class="container-editar">
     <HeaderAcoesVue 
-      :titulo="'Editar perfil'"
+      titulo='Editar perfil'
       :showEsquerda="true"
       :showDireita="true"
       :temIconeEsquerda="false"
       :temIconeDireita="false"
-      :textoDireita="'Concluir'"
+      textoDireita="Concluir"
       @acoesCallback="concluirEdicao"
     />
     <AvatarVue :imagem="getImagem" @click="abrirSeletor"/>
