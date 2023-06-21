@@ -7,21 +7,24 @@ import FeedVue from "@/components/Feed.vue";
 import { FeedServices } from "@/services/FeedServices";
 import { UsuarioServices } from "@/services/UsuarioServices";
 import router from "@/router";
+import Loading from 'vue3-loading-overlay';
 
 const feedServices = new FeedServices();
 const usuarioServices = new UsuarioServices();
 
 export default defineComponent({
-  components: { HeaderVue, FooterVue, FeedVue, HeaderPerfilVue },
+  components: { HeaderVue, FooterVue, FeedVue, HeaderPerfilVue, Loading },
   data() {
     return {
       posts: [],
       usuario: {} as any,
       mobile: window.innerWidth <= 992,
+      loading: false
     };
   },
   async mounted() {
     try {
+      this.loading = true
       if (!this.$route.params?.id) {
         return router.push({ name: "home" });
       }
@@ -41,6 +44,7 @@ export default defineComponent({
     } catch (e) {
       console.log(e);
     }
+    this.loading = false
   },
   computed: {
     getShowLeft(){
@@ -50,6 +54,7 @@ export default defineComponent({
 });
 </script>
 <template>
+  <Loading :active="loading" :can-cancel="false" color="#5e49ff" :is-full-page="true"/>
   <HeaderVue :hide="true" />
   <HeaderPerfilVue 
     :usuario="usuario"
@@ -59,6 +64,6 @@ export default defineComponent({
     :showDireita="false"
     v-if="usuario?._id"
   />
-  <FeedVue :posts="posts" :temCabecalho="true"/>
+  <FeedVue :posts="posts" :temCabecalho="true" v-if="posts && posts.length > 0"/>
   <FooterVue />
 </template>

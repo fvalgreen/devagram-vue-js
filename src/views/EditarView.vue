@@ -6,16 +6,18 @@ import { UsuarioServices } from "@/services/UsuarioServices";
 import HeaderAcoesVue from "@/components/HeaderAcoes.vue";
 import AvatarVue from "@/components/Avatar.vue";
 import router from "@/router";
+import Loading from 'vue3-loading-overlay';
 
 const usuarioServices = new UsuarioServices();
 
 export default defineComponent({
-  components: { HeaderVue, FooterVue, HeaderAcoesVue, AvatarVue },
+  components: { HeaderVue, FooterVue, HeaderAcoesVue, AvatarVue, Loading },
   data() {
     return {
       nome: localStorage.getItem('nome') as String,
       avatar: localStorage.getItem('avatar') as String,
-      imagem: {} as any
+      imagem: {} as any,
+      loading: false
     }
   },
   computed: {
@@ -48,6 +50,7 @@ export default defineComponent({
     },
     async concluirEdicao(){
       try {  
+        this.loading = true;
         if(!this.nome && !this.imagem.arquivo){
           return;
         }
@@ -74,25 +77,28 @@ export default defineComponent({
           localStorage.setItem('avatar', this.imagem.preview)
         }
 
+        this.loading = false;
         return router.back();
-
 
       } catch (e: any) {
         console.log(e)
+        this.loading = false;
         if(e?.response?.data?.erro){
           console.log(e?.response?.data?.erro);
         }else{
           console.log('Não foi possível efetuar a ediçao do perfil, tente novamente', e);
         }
       }
+      
     }
   }
 });
 </script>
 <template>
+  <Loading :active="loading" :can-cancel="false" color="#5e49ff" :is-full-page="true"/>
   <HeaderVue :hide="true" /> 
 
-  <div class="container-editar">
+  <div class="container-editar" v-if="!loading">
     <HeaderAcoesVue 
       titulo='Editar perfil'
       :showEsquerda="true"

@@ -5,17 +5,19 @@ import FooterVue from "@/components/Footer.vue";
 import HeaderAcoesVue from "@/components/HeaderAcoes.vue";
 import { PublicacaoServices } from "../services/PublicacaoServices";
 import router from "@/router";
+import Loading from 'vue3-loading-overlay';
 
 const publicacaoServices = new PublicacaoServices();
 
 export default defineComponent({
-  components: { HeaderVue, FooterVue, HeaderAcoesVue },
+  components: { HeaderVue, FooterVue, HeaderAcoesVue, Loading },
   data() {
     return {
       descricao: "",
       imagem: {} as any,
       mobile: window.innerWidth <= 992,
       avancar: false,
+      loading: false
     };
   },
   computed: {
@@ -66,6 +68,7 @@ export default defineComponent({
         if(!this.descricao && !this.imagem.arquivo){
           return;
         }
+        this.loading = true;
 
         const requisicaoBody = new FormData();
 
@@ -79,11 +82,12 @@ export default defineComponent({
         }
         
         await publicacaoServices.publicar(requisicaoBody)        
-
+        this.loading = false
         return router.push({name: 'home'});
 
 
       } catch (e: any) {
+        this.loading = false
         console.log(e)
         if(e?.response?.data?.erro){
           console.log(e?.response?.data?.erro);
@@ -95,9 +99,10 @@ export default defineComponent({
 });
 </script>
 <template>
+  
   <HeaderVue :hide="true" />
-
-  <div class="container-publicacao" :class="{ 'not-preview': imagem?.preview }">
+  <Loading :active="loading" :can-cancel="false" color="#5e49ff" :is-full-page="true"/>
+  <div class="container-publicacao" :class="{ 'not-preview': imagem?.preview }" v-if="!loading">
     <HeaderAcoesVue
       :titulo="getTitulo"
       :showEsquerda="mobile"

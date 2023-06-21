@@ -12,7 +12,6 @@ export default defineComponent({
   methods: {
     irParaUsuario(){
       router.push('/usuario/' + this.id)
-      console.log(this.id)
     }
   },
   components: {Avatar}
