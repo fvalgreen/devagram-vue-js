@@ -138,7 +138,7 @@ export default defineComponent({
         </span>
       </div>
       <div class="descricao">
-        <strong>{{ post?.usuario?.nome }}</strong>
+        <strong @click="navegarParaPerfil">{{ post?.usuario?.nome }}</strong>
         <p>
           {{ exibirDescricao }}
           <span
